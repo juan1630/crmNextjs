@@ -2,10 +2,31 @@ import React from 'react';
 import Layout  from '../components/Layout';
 import { useFormik  } from 'formik'
 import  * as Yup from 'yup';  
+import  { useQuery, gql  } from '@apollo/client';
+
+
+// const  QUERY = gql `
+// query obtenerProdudctos {
+//     obtenerProducots{
+//       id
+//       nombre
+//       precio
+//       existencia
+//     }
+//   }
+//   `;
 
 const NuevaCuenta = () => {
     
-    // validacion del formulario 
+    //obtener productos del graphql 
+
+    // data es como se accede a la info
+    // const { data, loading, error } = useQuery(QUERY)
+
+    // console.log(data );
+    // console.log( loading );
+    // console.log( error ); 
+    // // validacion del formulario 
 
     const formik = useFormik({
         // valores inidciales del formulario
@@ -21,8 +42,12 @@ const NuevaCuenta = () => {
         validationSchema: Yup.object({
             nombre: Yup.string().required('El nombre es obligatorio'),
             apellido: Yup.string().required('El apellido es obligatorio'),
-            email: Yup.string().required('El email es obligatorio'),
-            password: Yup.string().required('La contraseña es obligatoria')
+            email: Yup.string()
+                    .email('El email es obligatorio')
+                    .required('El email es obligatorio'),
+            password: Yup.string()
+                    .required('La contraseña es obligatoria')
+                    .min('La contraseña debe de ser almenos de 6 caracteres')
         }),
         onSubmit: valores => {
 
