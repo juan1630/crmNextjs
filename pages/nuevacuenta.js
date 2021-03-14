@@ -2,7 +2,7 @@ import React from 'react';
 import Layout  from '../components/Layout';
 import { useFormik  } from 'formik'
 import  * as Yup from 'yup';  
-import  { useQuery, gql  } from '@apollo/client';
+import  { useMutation, gql  } from '@apollo/client';
 
 
 // const  QUERY = gql `
@@ -16,6 +16,17 @@ import  { useQuery, gql  } from '@apollo/client';
 //   }
 //   `;
 
+
+const NUEVA_CUENTA = gql `
+mutation nuevoUsuario( $input : UsuarioInput ){
+    nuevoUsuario(input: $input){
+      id
+      name
+      email
+      lastName
+    }
+  }`
+
 const NuevaCuenta = () => {
     
     //obtener productos del graphql 
@@ -27,6 +38,11 @@ const NuevaCuenta = () => {
     // console.log( loading );
     // console.log( error ); 
     // // validacion del formulario 
+
+
+    // mutation para crear nuevos usuarios 
+    
+    const [ nuevoUsuario ] = useMutation( NUEVA_CUENTA );
 
     const formik = useFormik({
         // valores inidciales del formulario
@@ -47,11 +63,26 @@ const NuevaCuenta = () => {
                     .required('El email es obligatorio'),
             password: Yup.string()
                     .required('La contraseña es obligatoria')
-                    .min('La contraseña debe de ser almenos de 6 caracteres')
+                    .min(6,'La contraseña debe de ser almenos de 6 caracteres')
         }),
-        onSubmit: valores => {
-
-            console.log( valores )
+        onSubmit: async valores => {
+            console.log( valores );
+            const { nombre, apellido , email, password } =  valores;
+            try {
+             const  {data } = await  nuevoUsuario({
+                      variables : {
+                          input: {
+                           name: nombre,
+                           lastName : apellido,
+                            email,
+                            password
+                          }
+                      }
+                  });
+                  console.log( data);
+            } catch (error) {
+                console.log( error ); 
+            } 
         }
     });
     
