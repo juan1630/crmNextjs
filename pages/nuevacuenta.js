@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout  from '../components/Layout';
 import { useFormik  } from 'formik'
 import  * as Yup from 'yup';  
 import  { useMutation, gql  } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 
 // const  QUERY = gql `
@@ -29,6 +30,12 @@ mutation nuevoUsuario( $input : UsuarioInput ){
 
 const NuevaCuenta = () => {
     
+    const [mensaje, guardarMensaje ] = useState(null);
+
+    // nos da los metodos necesarios del ruter 
+    const router = useRouter();
+
+
     //obtener productos del graphql 
 
     // data es como se accede a la info
@@ -45,7 +52,7 @@ const NuevaCuenta = () => {
     const [ nuevoUsuario ] = useMutation( NUEVA_CUENTA );
 
     const formik = useFormik({
-        // valores inidciales del formulario
+        // valores iniciales del formulario
         // el handlechnage nos permite sobreescribir los valores 
         // del formulario
         initialValues: {
@@ -66,9 +73,10 @@ const NuevaCuenta = () => {
                     .min(6,'La contraseña debe de ser almenos de 6 caracteres')
         }),
         onSubmit: async valores => {
-            console.log( valores );
+            // console.log( valores );
             const { nombre, apellido , email, password } =  valores;
             try {
+
              const  {data } = await  nuevoUsuario({
                       variables : {
                           input: {
@@ -79,18 +87,47 @@ const NuevaCuenta = () => {
                           }
                       }
                   });
-                  console.log( data);
+
+                  // mensaje de sucess
+                  guardarMensaje(` Se guardó le usuario: ${data.nuevoUsuario.name}`)
+                  
+                  setTimeout( ()=> {
+                    guardarMensaje(null)
+                      
+                    router.push('/login')
+                  } , 3000 )
+                  // usuario creado
+                  
+                  // redirigir el usuario 
+
             } catch (error) {
-                console.log( error ); 
+                guardarMensaje( error.message.replace('GraphQL error:', '')  )
+                // console.log(  );
+                setTimeout( ()=> {
+                    guardarMensaje(null);
+                    // redireccionamos al usuario 
+                } , 2500 )
+
             } 
         }
     });
     
-    console.log(  formik );
+    // console.log(  formik );
+
+    const mostrarMensaje = () => {
+        return(
+            <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto" >
+                <p>
+                    { mensaje }
+                </p>
+            </div>
+        )
+    }
 
     return (  
         <>
         <Layout>
+            { mensaje && mostrarMensaje()  }
             <h1 className="text-center text-2xl text-white font-light"> Crear nueva cuenta  </h1>
             <div className="flex justify-center mt-5" >
                 <div className="w-full max-w-sm" >
