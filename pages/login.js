@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useFormik} from 'formik';
 import * as Yup from 'yup';
 import {  gql, useMutation} from '@apollo/client';
-
+import { useRouter } from 'next/router';
 
 const AUTENTICAR_USUARIO = gql  `
 mutation autenticarUsuario (  $input: AutenticarInput ){
@@ -17,6 +17,11 @@ const Login = () => {
 
     // mutsation para el login 
     const [autenticarUsuario  ] = useMutation( AUTENTICAR_USUARIO );
+
+    // rputin
+    const router = useRouter();
+    // mesaje 
+    const [ mensaje, guardarMensaje] = useState(null)
 
     const formik = useFormik({
         // valores iniciales 
@@ -48,19 +53,47 @@ const Login = () => {
                 });
 
 
-                console.log(data);
+                // console.log(data);
+                guardarMensaje('Autenticando...');
+
+                // guardar en el localstorage 
+
+                const { token } = data.autenticarUsuario;
+                localStorage.setItem('token', token);
+
+                setTimeout( ()=> {
+                    guardarMensaje(null);
+                    router.push('/');
+                }, 1500 )
+
+                //redireccionarl a clientes
+
 
             } catch (error) {
-                console.log( error );
+                guardarMensaje(error.message.replace('GraphQL error:', '') )
+                // console.log( error );
+                setTimeout( ()=> {
+                    guardarMensaje(null)
+                }, 2500 )
             }
 
         }
 
+        // fin del formik
     })
+
+    const mostrarMensaje = (  ) => {
+        return ( 
+            <div className="bg-white py-2 px-2 font-light text-center max-w-sm mx-auto"  >
+                <p> { mensaje } </p>
+            </div>
+        )
+    }
 
     return (  
         <>
         <Layout>
+            { mensaje && mostrarMensaje() }
             <h1 className="text-center text-2xl text-white font-light"> Login </h1>
             <div className="flex justify-center mt-5" >
                 <div className="w-full max-w-sm" >
