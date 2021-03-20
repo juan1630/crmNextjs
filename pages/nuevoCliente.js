@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '../components/Layout';
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
@@ -17,10 +17,38 @@ const NUEVO_CLIENTE = gql `
     }
 `;
 
+const OBTENER_CLIENTES_USUARIO = gql `
+  query obtenerClientesVendedor {
+      obtenerClientesVendedor {
+        nombre,
+        apellido,
+        empresa,
+        email,
+        id
+      }
+  }
+`;
+
 const nuevoCliente = () => {
 
-    const [nuevoCliente] = useMutation( NUEVO_CLIENTE );
     const router = useRouter();
+
+    const [mensaje, guardarMensaje ] = useState(null);
+    // de esta forma se leen los datos de manera mas optima
+
+    const [nuevoCliente] = useMutation( NUEVO_CLIENTE, {
+        update( cache, { data: {nuevoCliente} } ) {
+            //obtenerclientesVendedor
+            // obtener el objeto que queremos
+            const { obtenerClientesVendedor  } = cache.readQuery({ query: OBTENER_CLIENTES_USUARIO });
+
+            //reescribimos el cahce, el cache nunca se debe de modificar
+            cache.writeQuery({
+                query: OBTENER_CLIENTES_USUARIO,
+                data: { obtenerClientesVendedor  : [ ... obtenerClientesVendedor, nuevoCliente] }
+            })
+        }
+    } );
 
     const formik = useFormik({ 
         // se inicializa el hook de formik
@@ -69,10 +97,25 @@ const nuevoCliente = () => {
 
             } catch (error) {
                 console.log(error);
+                guardarMensaje( error.message.replace("GraphQL error: ", "")  );
+
+                setTimeout(()=>{ 
+                    guardarMensaje(null);
+                }, 2000 )
             }
         }
     })
 
+
+    const mostrarMensaje = () => {
+        return(
+            <div>
+                <p className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto" >
+                    {mensaje}
+                </p>
+            </div>
+        )
+    }
 
 
     return (
@@ -80,7 +123,8 @@ const nuevoCliente = () => {
 
             <Layout  className="mt-4"  >
                 <h1 className="text-2xl text-gray-800 font-light mb-3">    Nuevo cliente </h1>
-                
+
+              { mensaje && mostrarMensaje() }  
             <div  className="flex justify-center mt-5" >
                 <div  className="w-full max-w-lg"  >
                     <form  onSubmit={ formik.handleSubmit }  className="bg-white shadow-md px-8 mb-4"  >
