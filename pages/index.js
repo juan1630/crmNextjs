@@ -58,6 +58,9 @@ const OBTENER_CLIENTES_USUARIO = gql `
                     <th className="w-1/5 py-2" >
                         Eliminar
                     </th>
+                    <th className="w-1/5 py-2" >
+                        Editar
+                    </th>
                 </tr>
             </thead>
             <tbody className="bg-white">
