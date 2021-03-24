@@ -5,7 +5,8 @@ import Layout from '../../components/Layout';
 import { useQuery, gql, useMutation  } from '@apollo/client';
 
 import {  Form, Formik } from 'formik'
-import * as Yup from 'yup'
+import * as Yup from 'yup';
+import Swal from 'sweetalert2';
 
 
 
@@ -20,6 +21,18 @@ query obtenerCliente($id: ID!) {
     }
 }
 `;
+
+const ACTUALIZAR_CLIENTE = gql  `
+mutation actualizarCliente($id: ID!, $input : ClienteInput) {
+    actualizarCliente(id: $id, input: $input) {
+        nombre
+        email
+        apellido
+        telefono
+        empresa
+    }
+}
+`;  
 
 
 const EditarClientes = () => {
@@ -39,6 +52,49 @@ const EditarClientes = () => {
         }
     } );
 
+    // actualizar cliente
+
+    const [ actualizarCliente ] = useMutation( ACTUALIZAR_CLIENTE );
+
+    // modificar la info del cliente 
+
+    const actualizaClienteInfo = async valores  => {
+
+        const { nombre, apellido, empresa, email, telefono} = valores;
+
+
+        try {
+            const { data, loading, error } = await actualizarCliente({
+                variables:{
+                    id: pid,
+                    input: {
+                        nombre,
+                        apellido,
+                        email,
+                        empresa,
+                        telefono
+                    }
+
+                }
+
+
+            })
+
+            // console.log( data);
+            // swal de exito
+
+                Swal.fire('Actualizado','Se actualizo el cliente', 'success' );
+
+            //redireccionar a los clientes
+
+            router.push('/')
+
+
+        } catch (error) {
+            
+        }
+
+    }
 
     //schema de validacion
 
@@ -78,9 +134,10 @@ const EditarClientes = () => {
                     validationSchema={ schemaValidacion }
                     enableReinitialize
                     initialValues={ obtenerCliente }
-                    onSubmit={ (valores, funciones ) => {
+                    onSubmit={ (valores ) => {
                         // console.log('enviando agregar cliente')
-                        console.log( valores );
+                        // console.log( valores );
+                        actualizaClienteInfo( valores );
                     }}
                     
                     >
@@ -197,7 +254,7 @@ const EditarClientes = () => {
         
                                 <input type="submit" 
                                     className="bg-gray-800 w-full py-3  mt-2 text-white uppercase font-bold hove:bg/gray-900"
-                                    value="registrar cliente"
+                                    value="Editar cliente"
                                 />
                             </form>
                          ) 
