@@ -12,7 +12,7 @@ const NUEVO_CLIENTE = gql `
             nombre
             apellido
             email
-            telefono
+            telefono    
         }
     }
 `;

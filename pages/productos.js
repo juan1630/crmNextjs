@@ -32,7 +32,7 @@ query obetenerProducots {
     <div>
       <Layout>
       <h1 className="text-2xl text-gray-800 font-light mb-3">  Productos </h1>
-        <Link href="/nuevoCliente" >
+        <Link href="/nuevoproducto" >
           <a className="bg-blue-800 uppercase text-white inline-block  text-sm font-bold p-1 rounded">
               Nuevo producto
           </a>
@@ -51,6 +51,12 @@ query obetenerProducots {
                     <th className="w-4/5 py-2 " >
                         Existencia
                     </th>
+                    <th className="w-1/5 py-2" >
+                        Eliminar
+                    </th>
+                    <th className="w-1/5 py-2" >
+                        Editar
+                    </th>
                 </tr>
             
               </thead>
@@ -64,8 +70,19 @@ query obetenerProducots {
                       <td className="border px-4 py-2  text-center" >
                         { elementos.precio }
                       </td>
-                      <td className="border px-4 py-2 " >
+                      <td className="border text-center px-4 py-2 " >
                           { elementos.existencia }
+                      </td>
+
+                      <td  className="border px-4 py-2"  >
+                          <button className="bg-red-800 p-2 text-white"  >
+                                Eliminar
+                          </button>
+                      </td>
+                      <td  className="border px-4 py-2"  >
+                          <button className="bg-blue-800 p-2 text-white"  >
+                                Editar
+                          </button>
                       </td>
                      
                       </tr>
