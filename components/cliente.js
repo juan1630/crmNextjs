@@ -66,7 +66,7 @@ export const Cliente = ({ cliente }) => {
             
             try {
                
-               console.log('Eliminando...')
+               // console.log('Eliminando...')
                // eliminar por id 
 
                const { data } =  await eliminarCliente({

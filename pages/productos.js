@@ -2,7 +2,7 @@ import Layout from '../components/Layout';
 import { useRouter  } from 'next/router'
 import { gql, useQuery } from '@apollo/client';
 import Link from 'next/link';
-
+import Producto from '../components/Productos';
 
 
 const OBTENER_PRODUCTOS = gql `
@@ -62,30 +62,12 @@ query obetenerProducots {
               </thead>
 
               <tbody>
-                  { data.obtenerProducots.map( elementos => (
-                      <tr  key={elementos.id}   >
-                      <td className="border px-4 py-2 "  >
-                         { elementos.nombre }  
-                      </td>
-                      <td className="border px-4 py-2  text-center" >
-                        { elementos.precio }
-                      </td>
-                      <td className="border text-center px-4 py-2 " >
-                          { elementos.existencia }
-                      </td>
+                  { data.obtenerProducots.map( productos => (
+                        <Producto
+                          elementos={productos}
+                          key={ productos.id }
 
-                      <td  className="border px-4 py-2"  >
-                          <button className="bg-red-800 p-2 text-white"  >
-                                Eliminar
-                          </button>
-                      </td>
-                      <td  className="border px-4 py-2"  >
-                          <button className="bg-blue-800 p-2 text-white"  >
-                                Editar
-                          </button>
-                      </td>
-                     
-                      </tr>
+                          />    
                   )) }
           
               </tbody>

@@ -129,6 +129,7 @@ const Login = () => {
                            </label>
                            <input  className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-thing focus:outline-none focus:shadown-outline "
                            id="password"
+                           name="password"
                            type="password"
                            placeholder="Password Usuario"
                            onBlur={ formik.handleBlur }

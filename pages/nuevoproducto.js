@@ -15,14 +15,38 @@ mutation  nuevoProducto ($input: ProductoInput ){
             precio
         }
    }
-`
+`;
 
+
+const OBTENER_PRODUCTOS = gql `
+query obetenerProducots {
+  obtenerProducots{
+    nombre
+    id
+    existencia
+    creado
+  precio
+  }
+}
+`;
 
  const nuevoProducto = () => {
 
     const router = useRouter();
-    const [ nuevoProducto ] = useMutation( AGREGAR_PRODUCTO );
     const [ mensaje, setMensaje ] = useState(null);
+
+    const [ nuevoProducto ] = useMutation( AGREGAR_PRODUCTO , {
+        update( cache,  { data: {nuevoProducto} } ){
+
+            const { obetenerProducots } = cache.readQuery({ query: OBTENER_PRODUCTOS} )
+
+            cache.writeQuery( {
+                query: OBTENER_PRODUCTOS,
+                data: {  obetenerProducots : [ ... obetenerProducots, nuevoProducto] }
+            } )
+        }
+    } );
+    
 
     const formik = useFormik({
         initialValues: {
@@ -56,7 +80,10 @@ mutation  nuevoProducto ($input: ProductoInput ){
                 });
 
                 // console.log( data.nuevoProducto )
-                 router.push('/productos')
+                if(data.nuevoProducto) {
+
+                    router.push('/productos')
+                }
 
             } catch (error) {
 

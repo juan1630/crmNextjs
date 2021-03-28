@@ -38,8 +38,7 @@ const nuevoCliente = () => {
 
     const [nuevoCliente] = useMutation( NUEVO_CLIENTE, {
         update( cache, { data: {nuevoCliente} } ) {
-            //obtenerclientesVendedor
-            // obtener el objeto que queremos
+          
             const { obtenerClientesVendedor  } = cache.readQuery({ query: OBTENER_CLIENTES_USUARIO });
 
             //reescribimos el cahce, el cache nunca se debe de modificar
@@ -96,7 +95,7 @@ const nuevoCliente = () => {
                 }
 
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 guardarMensaje( error.message.replace("GraphQL error: ", "")  );
 
                 setTimeout(()=>{ 
