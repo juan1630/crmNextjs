@@ -38,11 +38,11 @@ query obetenerProducots {
     const [ nuevoProducto ] = useMutation( AGREGAR_PRODUCTO , {
         update( cache,  { data: {nuevoProducto} } ){
 
-            const { obetenerProducots } = cache.readQuery({ query: OBTENER_PRODUCTOS} )
+            const { obtenerProducots } = cache.readQuery({ query: OBTENER_PRODUCTOS} );
 
             cache.writeQuery( {
                 query: OBTENER_PRODUCTOS,
-                data: {  obetenerProducots : [ ... obetenerProducots, nuevoProducto] }
+                data: {  obtenerProducots : [ ... obtenerProducots, nuevoProducto] }
             } )
         }
     } );

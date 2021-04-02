@@ -1,6 +1,7 @@
 import React from 'react'
 import Swal from 'sweetalert2';
 import { gql, useMutation } from '@apollo/client';
+import Router from 'next/router'
 
 
 const ELIMINAR_PRODUCTO = gql `
@@ -9,13 +10,43 @@ mutation eliminarProducto($id: ID!){
 }
 `;
 
+
+
+const OBTENER_PRODUCTOS = gql `
+query obetenerProducots {
+  obtenerProducots{
+    nombre
+    id
+    existencia
+    creado
+  precio
+  }
+}
+`;
+
  const Producto = ({ elementos }) => {
 
-    const[ eliminarProducto ] = useMutation( ELIMINAR_PRODUCTO );
+
+ 
+
+    const[ eliminarProducto ] = useMutation( ELIMINAR_PRODUCTO, { 
+        update(cache ) {
+            const { obtenerProducots } = cache.readQuery({ query: OBTENER_PRODUCTOS });
+            
+            cache.writeQuery({
+                query: OBTENER_PRODUCTOS,
+                data: { 
+                    obtenerProducots: obtenerProducots.filter( productoActual => productoActual.id != id )
+                }
+            })
+        }
+    } );
 
     const { id, precio, existencia, nombre  } = elementos;
 
-    const confirmarEliminacionProductos =  ( id ) => {
+    const confirmarEliminacionProductos =  (  ) => {
+
+        console.log(id  )
         Swal.fire({
             title: 'Deseas eliminar este producto?',
             text: "Esta accion no se puede deshacer",
@@ -54,6 +85,18 @@ mutation eliminarProducto($id: ID!){
           })
     }
 
+
+    const editarProducto = () => {
+        
+        Router.push({
+            pathname: "/editarproducto/[id]",
+            query: {
+                id
+             }
+        })
+
+    }
+
     //  console.log( elementos )
     return (
    
@@ -74,7 +117,7 @@ mutation eliminarProducto($id: ID!){
                           </button>
                       </td>
                       <td  className="border px-4 py-2"  >
-                          <button className="bg-blue-800 p-2 text-white"  >
+                          <button className="bg-blue-800 p-2 text-white"  onClick={ ()=> {editarProducto() }  } >
                                 Editar
                           </button>
                       </td>

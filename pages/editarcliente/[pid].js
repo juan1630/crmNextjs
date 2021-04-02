@@ -23,14 +23,12 @@ query obtenerCliente($id: ID!) {
 `;
 
 const ACTUALIZAR_CLIENTE = gql  `
-mutation actualizarCliente($id: ID!, $input : ClienteInput) {
-    actualizarCliente(id: $id, input: $input) {
-        nombre
-        email
-        apellido
-        telefono
-        empresa
-    }
+mutation actualizarProdcuto( $id: ID!, $input: ProductoInput ){
+  	actualizarProdcuto( id: $id, input: $input ){
+    nombre,
+    existencia,
+    precio
+  }
 }
 `;  
 
@@ -91,7 +89,7 @@ const EditarClientes = () => {
 
 
         } catch (error) {
-            
+            console.log( error )
         }
 
     }
@@ -114,11 +112,6 @@ const EditarClientes = () => {
 
 
     if(loading)  return 'Cargando...'
-
-
-    // console.log(  )
-    // console.log( loading )
-    // console.log( error )
 
     const {obtenerCliente } = data;
 

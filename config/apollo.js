@@ -9,7 +9,7 @@ const httpLink = createHttpLink({
     // configuramos nuestro access point
     uri: 'http://localhost:4000/',
     fetch
-});
+}); 
 
 
 const authLink = setContext( (_, { headers })=> {

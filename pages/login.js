@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import { useFormik} from 'formik';
 import * as Yup from 'yup';
+import { useFormik} from 'formik';
 import {  gql, useMutation} from '@apollo/client';
 import { useRouter } from 'next/router';
 
@@ -93,7 +93,7 @@ const Login = () => {
     return (  
         <>
         <Layout>
-            { mensaje && mostrarMensaje() }
+            { mensaje && mostrarMensaje() } 
             <h1 className="text-center text-2xl text-white font-light"> Login </h1>
             <div className="flex justify-center mt-5" >
                 <div className="w-full max-w-sm" >
