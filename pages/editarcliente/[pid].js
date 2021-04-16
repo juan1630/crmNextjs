@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 import Swal from 'sweetalert2';
 
 
-
 const OBTENER_CLIENTE = gql  `
 query obtenerCliente($id: ID!) {
     obtenerCliente(id: $id) {
@@ -233,7 +232,7 @@ const EditarClientes = () => {
                                    <label className="block text-gray-700text-sm font-bold mb-2" htmlFor="telefono">
                                         Telefono: 
                                    </label>
-                                   <input  className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-thing focus:outline-none focus:shadown-outline "
+                                   <input  className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-thing focus:outline-none focus:shadow-outline "
                                    id="telefono"
                                    type="phone"
                                    placeholder="Email Usuario"

@@ -73,7 +73,7 @@ query obetenerProducots {
                       // mostrar alerta 
                     Swal.fire(
                         'Eliminado!',
-                        'Your file has been deleted.',
+                        'El producto ha sido eliminado',
                         'success'
                     )
 

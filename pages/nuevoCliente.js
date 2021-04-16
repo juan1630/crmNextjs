@@ -128,7 +128,7 @@ const nuevoCliente = () => {
                 <div  className="w-full max-w-lg"  >
                     <form  onSubmit={ formik.handleSubmit }  className="bg-white shadow-md px-8 mb-4"  >
                         <div  className="mb-4" >
-                            <label className="block text-gray-700text-sm font-bold mb-2" htmlFor="nombre">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
                                     Nombre: 
                             </label>
                             <input  className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-thing focus:outline-none focus:shadown-outline "

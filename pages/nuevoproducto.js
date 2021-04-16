@@ -3,8 +3,8 @@ import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
-import { useRouter } from 'next/router'
-
+import { useRouter } from 'next/router';
+import Swal from 'sweetalert2'
 
 
 const AGREGAR_PRODUCTO = gql `
@@ -38,6 +38,7 @@ query obetenerProducots {
     const [ nuevoProducto ] = useMutation( AGREGAR_PRODUCTO , {
         update( cache,  { data: {nuevoProducto} } ){
 
+            //obtener el objeto de cache
             const { obtenerProducots } = cache.readQuery({ query: OBTENER_PRODUCTOS} );
 
             cache.writeQuery( {
@@ -82,6 +83,7 @@ query obetenerProducots {
                 // console.log( data.nuevoProducto )
                 if(data.nuevoProducto) {
 
+                    Swal.fire("Producto agregado", "Se garego el producto", "success")
                     router.push('/productos')
                 }
 
