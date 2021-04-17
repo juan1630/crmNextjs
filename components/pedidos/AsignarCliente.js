@@ -23,8 +23,12 @@ const AsignarCliente = () => {
 
 
     return ( 
-    
+
+        
+        <>
+        <p className="mt-2  my-2 bg-white border-l-4 border-gray-800" > 1.- Asigna un cliente al pedido</p>
         <Select
+            className="mt-3 "
             options={clientes}
             isMulti={true}
             onChange={(option) => seleccionarCliente(option) }
@@ -33,6 +37,8 @@ const AsignarCliente = () => {
             placeholder="Selecciones el cliente"
             noOptionsMessage={ ()=> "No hay clientes" }
     />
+
+    </>
 
 
      );
