@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
 
       <PedidoState>
         
-        <Component {...pageProps} />
+         <Component {...pageProps} />
 
       </PedidoState>
 
