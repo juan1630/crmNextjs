@@ -58,7 +58,7 @@ const AsignarCliente = () => {
                 <Select
                     className="mt-3 "
                     options={obtenerClientesVendedor}
-                    isMulti={true}
+                    isMulti={false}
                     onChange={(option) => seleccionarCliente(option) }
                     getOptionValue={ (opciones) => opciones.id }
                     getOptionLabel={ opciones => opciones.nombre }

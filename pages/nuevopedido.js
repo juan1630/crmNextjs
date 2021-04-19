@@ -1,6 +1,7 @@
 import React, {useState, useEffect}  from 'react'
 import Layout from '../components/Layout';
 import AsignarCliente from '../components/pedidos/AsignarCliente';
+import AsignarPedidos from '../components/pedidos/AsignarPedidos';
 
 
 const nuevopedido = () => {
@@ -14,10 +15,13 @@ const nuevopedido = () => {
 
                     <AsignarCliente className="mt-2" />
 
+                    <AsignarPedidos className="mt-2" />
+
             </Layout>
         </div>
     )
 }
 
+// asignar pedidos en realidad es asignar productos 
 
 export default nuevopedido;
