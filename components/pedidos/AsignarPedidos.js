@@ -13,7 +13,7 @@ query obetenerProducots {
     id
     existencia
     creado
-  precio
+    precio
   }
 }
 `;
